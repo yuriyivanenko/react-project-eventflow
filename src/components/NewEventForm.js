@@ -2,48 +2,9 @@ import React, { useEffect, useRef } from "react"
 import { TempusDominus } from "@eonasdan/tempus-dominus"
 
 const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
-  const { eventName, address, address2, state, zip, description, availableSeats } = formData
-  const eventNameRef = useRef()
-  const addressRef = useRef()
-  const address2Ref = useRef()
-  const stateRef = useRef()
-  const zipRef = useRef()
-  const descriptionRef = useRef()
-  const availableSeatsRef = useRef()
+  const { eventName, address, address2, state, zip, description, date, time, availableSeats } = formData
 
-  useEffect(() => {
-    const inputElement = document.getElementById("datetimepicker1")
-    const picker = new TempusDominus(inputElement, {
-      display: {
-        icons: {
-          type: "icons",
-          time: "fa fa-clock",
-          date: "fa fa-calendar",
-          up: "fa fa-chevron-up",
-          down: "fa fa-chevron-down",
-          previous: "fa fa-chevron-left",
-          next: "fa fa-chevron-right",
-          today: "fa fa-calendar-check-o",
-          clear: "fa fa-trash",
-          close: "fa fa-times",
-        },
-      },
-    })
-
-    document.getElementById("datetimepicker1").addEventListener("change.td", (e) => {
-      handleFormChange({
-        ...e.detail,
-        name: "dateTime",
-        value: `${e.detail.date.toLocaleDateString()} ${e.detail.date.toLocaleTimeString()}`,
-      })
-    })
-
-    return () => {
-      inputElement.removeEventListener("change.td", (e) => {})
-    }
-  }, [])
-
-  const handleChange = (_e, ref) => handleFormChange(ref.current)
+  const handleChange = (e) => handleFormChange(e.target)
   const handleSubmit = (e) => {
     e.preventDefault()
     handleFormSubmit(e)
@@ -55,8 +16,6 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
         <div className="py-5 text-center">
           <h2>New Event Form</h2>
         </div>
-        <input type="date" id="birthday" name="birthday"></input>
-        <input type="time" id="appt" name="appt"></input>
         <div className="row g-5 justify-content-center">
           <div className="col-md-12 col-lg-7">
             <form className="needs-validation" noValidate onSubmit={handleSubmit}>
@@ -66,9 +25,8 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   <div className="input-group has-validation">
                     <input
                       type="text"
-                      // value={eventName}
-                      ref={eventNameRef}
-                      onChange={(e) => handleChange(e, eventNameRef)}
+                      value={eventName}
+                      onChange={handleChange}
                       name="eventName"
                       className="form-control"
                       placeholder="Jimmy Eat World Concert"
@@ -77,7 +35,6 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   </div>
                 </div>
                 <hr className="my-4" />
-                {/* EVENT LOCATION */}
                 <div className="col-12">
                   <h5>Event Location</h5>
                   <label htmlFor="address" className="form-label">
@@ -85,8 +42,8 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   </label>
                   <input
                     type="text"
-                    ref={addressRef}
-                    onChange={(e) => handleChange(e, addressRef)}
+                    value={address}
+                    onChange={handleChange}
                     name="address"
                     className="form-control"
                     id="address"
@@ -101,8 +58,8 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   </label>
                   <input
                     type="text"
-                    ref={address2Ref}
-                    onChange={(e) => handleChange(e, address2Ref)}
+                    value={address2}
+                    onChange={handleChange}
                     name="address2"
                     className="form-control"
                     id="address2"
@@ -115,15 +72,14 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   </label>
                   <input
                     type="text"
-                    ref={stateRef}
-                    onChange={(e) => handleChange(e, stateRef)}
+                    value={state}
+                    onChange={handleChange}
                     name="state"
                     className="form-control"
-                    id="zip"
+                    id="state"
                     placeholder=""
                     required
                   />
-                  <div className="invalid-feedback">Please provide a valid state.</div>
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="zip" className="form-label">
@@ -131,25 +87,22 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   </label>
                   <input
                     type="text"
-                    ref={zipRef}
-                    onChange={(e) => handleChange(e, zipRef)}
+                    value={zip}
+                    onChange={handleChange}
                     name="zip"
                     className="form-control"
                     id="zip"
                     placeholder=""
                     required
                   />
-                  <div className="invalid-feedback">Zip code required.</div>
                 </div>
               </div>
-
               <hr className="my-4" />
-
               <h5 className="mb-3">Description</h5>
               <div className="col-12">
                 <textarea
-                  ref={descriptionRef}
-                  onChange={(e) => handleChange(e, descriptionRef)}
+                  value={description}
+                  onChange={handleChange}
                   name="description"
                   className="form-control"
                   aria-label="With textarea"
@@ -157,45 +110,13 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                 ></textarea>
               </div>
               <hr className="my-4" />
-              {/* INFORMATION */}
-              <h5 className="mb-3">Information</h5>
-              <div className="col-12 mb-5">
-                <div className="container mt-5">
-                  <div className="row">
-                    <div className="col-md-5">
-                      <div className="form-group">
-                        <label htmlFor="datetimepicker1">Select Date and Time</label>
-                        <div
-                          className="input-group date"
-                          id="datetimepicker1"
-                          data-td-target-input="nearest"
-                          data-td-target-toggle="nearest"
-                        >
-                          <span
-                            data-td-target="#datetimepicker1"
-                            data-td-toggle="datetimepicker"
-                            className="input-group-text"
-                            id="basic-addon1"
-                          >
-                            <i className="fa fa-calendar"></i>
-                          </span>
-                          <input
-                            type="text"
-                            readOnly
-                            name="dateTime"
-                            className="form-control datetimepicker-input"
-                            data-td-target="#datetimepicker1"
-                          />
-                          <div
-                            className="input-group-append"
-                            data-td-target="#datetimepicker1"
-                            data-td-toggle="datetimepicker"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="col-md-6 mb-3">
+                <h6>Date</h6>
+                <input type="date" value={date} onChange={handleChange} id="date" name="date" required />
+              </div>
+              <div className="col-md-6 mb-3">
+                <h6>Time</h6>
+                <input type="time" id="time" value={time} onChange={handleChange} name="time" required />
               </div>
               <div className="col-md-5 mb-5">
                 <label htmlFor="seats" className="form-label">
@@ -203,8 +124,8 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                 </label>
                 <input
                   type="number"
-                  ref={availableSeatsRef}
-                  onChange={(e) => handleChange(e, availableSeatsRef)}
+                  value={availableSeats}
+                  onChange={handleChange}
                   name="availableSeats"
                   className="form-control"
                   id="seats"

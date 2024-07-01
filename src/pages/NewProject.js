@@ -12,23 +12,19 @@ const NewEvent = () => {
     state: "",
     zip: "",
     description: "",
-    dateTime: "",
+    date: "",
+    time: "",
     availableSeats: "",
   })
 
-  const handleFormChange = (ref) => {
-    console.log(ref)
+  const handleFormChange = (target) => {
     setFormData({
       ...formData,
-      [ref.name]: ref.name === "availableSeats" ? Number(ref.value) : ref.value,
+      [target.name]: target.name === "availableSeats" ? Number(target.value) : target.value,
     })
-    console.log(formData)
   }
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault()
-    console.log(formData)
-    // return
+  const handleFormSubmit = async () => {
     try {
       await addDoc(collection(db, "events"), formData)
       alert("User added successfully!")
