@@ -1,24 +1,17 @@
 import React from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import NavBar from "../components/NavBar"
 
 const Home = () => {
+  const navigate = useNavigate()
+
+  const handleNewProjectClick = () => {
+    navigate("/new_event")
+  }
+
   return (
     <>
-      <div className="">
-        <nav className="navbar navbar-light bg-light">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              <img
-                src="/images/logo192.png"
-                alt="Logo"
-                width="30"
-                height="24"
-                className="d-inline-block align-text-top"
-              />
-              EventFlow
-            </a>
-          </div>
-        </nav>
-      </div>
+      <NavBar />
       <div className="col-lg-8 mx-auto p-3 py-md-5">
         <main>
           <h1>Get started with EventFlow</h1>
@@ -28,9 +21,9 @@ const Home = () => {
             </p> */}
 
           <div className="mb-5">
-            <a href="../examples/" className="btn btn-primary btn-lg px-4">
-              Create New Project
-            </a>
+            <button className="btn btn-primary btn-lg px-4" onClick={handleNewProjectClick}>
+              Create New Event
+            </button>
           </div>
 
           <hr className="col-3 col-md-2 mb-5" />
