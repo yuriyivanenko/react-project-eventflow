@@ -1,5 +1,5 @@
 import React from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import NavBar from "../components/NavBar"
 
 const Home = () => {
