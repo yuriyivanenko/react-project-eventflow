@@ -39,7 +39,7 @@ const LandingPage = () => {
           <p className="lead mb-5">{`${state}, ${zip}`}</p>
           <p className="lead mb-3">Scan QR code to sign up</p>
           <QRCode
-            value={JSON.stringify(`http://10.1.51.116:3000/event_signup/${id}`)}
+            value={JSON.stringify(`https://react-project-eventflow.vercel.app/event_signup/${id}`)}
             className="mb-5"
             size={150}
             fgColor="#000000"
