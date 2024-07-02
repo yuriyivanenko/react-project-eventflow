@@ -1,13 +1,32 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import NavBar from "../components/NavBar"
+import { collection, getDocs, orderBy, limit, query } from "firebase/firestore"
+import { db } from "../firebase"
+import EventLink from "../components/EventLink"
 
 const Home = () => {
+  const [eventsList, setEventsList] = useState(null)
   const navigate = useNavigate()
 
   const handleNewProjectClick = () => {
     navigate("/new_event")
   }
+
+  useEffect(() => {
+    const fetchFiveEarliestEvents = async () => {
+      try {
+        const collectionRef = collection(db, "events")
+        const q = query(collectionRef, orderBy("date", "asc"), limit(5))
+        const querySnapShot = await getDocs(q)
+        const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        setEventsList(eventsList)
+      } catch (error) {
+        alert(error)
+      }
+    }
+    fetchFiveEarliestEvents()
+  }, [])
 
   return (
     <>
@@ -30,18 +49,13 @@ const Home = () => {
 
           <div className="row g-5">
             <div className="col-md-6">
-              <h2>Current projects</h2>
-              <p>
-                Ready to beyond the starter template? Check out these open source projects that you can quickly
-                duplicate to a new GitHub repository.
-              </p>
+              <h2>Your events</h2>
+              <p>5 earliest events coming up</p>
               <ul className="icon-list">
-                <li>
-                  <a href="https://github.com/twbs/bootstrap-npm-starter" rel="noopener" target="_blank">
-                    Bootstrap npm starter
-                  </a>
-                </li>
-                <li className="text-muted">Bootstrap Parcel starter (coming soon!)</li>
+                {eventsList &&
+                  eventsList.map((event) => {
+                    return <EventLink key={event.id} eventInfo={event} />
+                  })}
               </ul>
             </div>
 
@@ -65,7 +79,7 @@ const Home = () => {
             </div>
           </div>
         </main>
-        <footer className="pt-5 my-5 text-muted border-top">Created by the Bootstrap team &middot; &copy; 2021</footer>
+        <footer className="pt-5 my-5 text-muted border-top">Created by the Yuriy &middot; &copy; 2024</footer>
       </div>
     </>
   )

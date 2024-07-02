@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react"
-import { TempusDominus } from "@eonasdan/tempus-dominus"
+import React from "react"
 
 const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
   const { eventName, address, address2, state, zip, description, date, time, availableSeats } = formData
@@ -120,7 +119,7 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
               </div>
               <div className="col-md-5 mb-5">
                 <label htmlFor="seats" className="form-label">
-                  Availble Seats
+                  Available Seats
                 </label>
                 <input
                   type="number"

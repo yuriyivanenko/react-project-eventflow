@@ -26,8 +26,19 @@ const NewEvent = () => {
 
   const handleFormSubmit = async () => {
     try {
-      await addDoc(collection(db, "events"), formData)
-      alert("User added successfully!")
+      const docRef = await addDoc(collection(db, "events"), formData)
+      // setFormData({
+      //   eventName: "",
+      //   address: "",
+      //   address2: "",
+      //   state: "",
+      //   zip: "",
+      //   description: "",
+      //   date: "",
+      //   time: "",
+      //   availableSeats: "",
+      // })
+      console.log(docRef.id)
     } catch (e) {
       console.error("Error adding document: ", e)
     }
