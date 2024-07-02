@@ -5,7 +5,7 @@ const NavBar = () => {
     <>
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/">
             <img
               src="/images/logo192.png"
               alt="Logo"
