@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom"
 import Home from "./pages/Home"
 import NewEvent from "./pages/NewProject"
 import Error404 from "./pages/Error404"
+import Project from "./pages/Project"
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/new_event",
     element: <NewEvent />,
+  },
+  {
+    path: "/project/:id",
+    element: <Project />,
   },
 ])
 
