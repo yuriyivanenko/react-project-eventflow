@@ -1,32 +1,48 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom"
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDocs, getDoc, collection, query, limit } from "firebase/firestore"
 import { db } from "../firebase"
 import NavBar from "../components/NavBar"
+import Attendee from "../components/Attendee"
 
 const Event = () => {
   const { id } = useParams()
   const [eventData, setEventData] = useState(null)
+  const [attendees, setAttendees] = useState(null)
   const location = useLocation()
   const isLandingPage = location.pathname.includes("landing_page")
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const docRef = doc(db, "events", id)
-        const docSnap = await getDoc(docRef)
+  const fetchEventData = async () => {
+    try {
+      const docRef = doc(db, "events", id)
+      const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-          setEventData(docSnap.data())
-        } else {
-          console.log("No such document!")
-        }
-      } catch (error) {
-        console.error("Error fetching event data:", error)
+      if (docSnap.exists()) {
+        setEventData(docSnap.data())
+      } else {
+        console.log("No such document!")
       }
+    } catch (error) {
+      console.error("Error fetching event data:", error)
     }
+  }
+
+  const fetchAttendees = async () => {
+    try {
+      const collectionRef = collection(db, `events/${id}/attendees`)
+      const q = query(collectionRef, limit(5))
+      const querySnapShot = await getDocs(q)
+      const attendeesList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      setAttendees(attendeesList)
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  useEffect(() => {
     fetchEventData()
+    fetchAttendees()
   }, [id])
 
   const convert24HourToLocale = (time24) => {
@@ -97,23 +113,18 @@ const Event = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <h2>Seating</h2>
-                  <p className="mb-0">Available Seats: {eventData.availableSeats}</p>
+                  <h2>Attendees</h2>
+                  {/* <p className="mb-0">Available Seats: {eventData.availableSeats}</p>
                   <p className="mb-0">Seats Reserved: {eventData.availableSeats}</p>
-                  <p className="mb-0">Available Seats: {eventData.availableSeats}</p>
+                  <p className="mb-0">Available Seats: {eventData.availableSeats}</p> */}
                   <ul className="icon-list">
-                    <li>
-                      <a href="../getting-started/introduction/">Bootstrap quick start guide</a>
-                    </li>
-                    <li>
-                      <a href="../getting-started/webpack/">Bootstrap Webpack guide</a>
-                    </li>
-                    <li>
-                      <a href="../getting-started/parcel/">Bootstrap Parcel guide</a>
-                    </li>
-                    <li>
-                      <a href="../getting-started/build-tools/">Contributing to Bootstrap</a>
-                    </li>
+                    {attendees.length !== 0 ? (
+                      attendees.map((person) => {
+                        return <Attendee key={person.id} person={person} />
+                      })
+                    ) : (
+                      <p>No one so far</p>
+                    )}
                   </ul>
                 </div>
               </div>

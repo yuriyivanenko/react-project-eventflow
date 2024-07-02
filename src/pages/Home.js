@@ -27,7 +27,6 @@ const Home = () => {
     }
     fetchFiveEarliestEvents()
   }, [])
-  console.log(eventsList)
 
   return (
     <>
