@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, addDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
 
 const EventSignUp = () => {
   const { id } = useParams()
   const [eventDate, setEventData] = useState(null)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+  })
+
+  const handleFormChange = ({ target: { name, value } }) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -25,8 +36,17 @@ const EventSignUp = () => {
     fetchEventData()
   }, [id])
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault()
+    try {
+      await addDoc(collection(db, `events/${id}/attendees`), formData)
+      setFormData({
+        firstName: "",
+        lastName: "",
+      })
+    } catch (e) {
+      console.error("Error adding document: ", e)
+    }
   }
 
   if (!eventDate)
@@ -48,16 +68,32 @@ const EventSignUp = () => {
           <p className="lead mb-0">{eventDate.address2}</p>
           <p className="lead mb-5">{`${eventDate.state}, ${eventDate.zip}`}</p>
           <form onSubmit={handleSignup}>
-            <h1 class="h3 mb-3 fw-normal">Sign up for this event</h1>
-            <div class="form-floating mb-4">
-              <input type="text" class="form-control" id="firstName" placeholder="John" />
-              <label for="firstName">First name</label>
+            <h1 className="h3 mb-3 fw-normal">Sign up for this event</h1>
+            <div className="form-floating mb-4">
+              <input
+                value={formData.firstName}
+                onChange={handleFormChange}
+                name="firstName"
+                type="text"
+                className="form-control"
+                id="firstName"
+                placeholder="John"
+              />
+              <label htmlFor="firstName">First name</label>
             </div>
-            <div class="form-floating mb-4">
-              <input type="text" class="form-control" id="floatingPassword" placeholder="Smith" />
-              <label for="floatingPassword">Last name</label>
+            <div className="form-floating mb-4">
+              <input
+                value={formData.lastName}
+                onChange={handleFormChange}
+                name="lastName"
+                type="text"
+                className="form-control"
+                id="floatingPassword"
+                placeholder="Smith"
+              />
+              <label htmlFor="floatingPassword">Last name</label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">
+            <button className="w-100 btn btn-lg btn-primary" type="submit">
               Sign Up
             </button>
           </form>
