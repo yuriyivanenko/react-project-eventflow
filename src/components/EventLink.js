@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 const EventLink = ({ eventInfo: { id, eventName, date } }) => {
   const navigate = useNavigate()
   const navigateTo = () => {
-    navigate(`/project/${id}`)
+    navigate(`/event/${id}`)
   }
 
   return (

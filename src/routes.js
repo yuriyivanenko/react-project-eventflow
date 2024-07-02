@@ -1,9 +1,10 @@
 import React from "react"
 import { createBrowserRouter } from "react-router-dom"
 import Home from "./pages/Home"
-import NewEvent from "./pages/NewProject"
+import NewEvent from "./pages/NewEvent"
 import Error404 from "./pages/Error404"
-import Project from "./pages/Project"
+import Event from "./pages/Event"
+import LandingPage from "./pages/LandingPage"
 
 const router = createBrowserRouter([
   {
@@ -16,8 +17,14 @@ const router = createBrowserRouter([
     element: <NewEvent />,
   },
   {
-    path: "/project/:id",
-    element: <Project />,
+    path: "/event/:id",
+    element: <Event />,
+    children: [
+      {
+        path: "landing_page",
+        element: <LandingPage />,
+      },
+    ],
   },
 ])
 
