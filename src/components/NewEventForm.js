@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react"
-import { TempusDominus } from "@eonasdan/tempus-dominus"
+import React from "react"
 
 const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
   const { eventName, address, address2, state, zip, description, date, time, availableSeats } = formData
