@@ -114,17 +114,11 @@ const Event = () => {
 
                 <div className="col-md-6">
                   <h2>Attendees</h2>
-                  {/* <p className="mb-0">Available Seats: {eventData.availableSeats}</p>
-                  <p className="mb-0">Seats Reserved: {eventData.availableSeats}</p>
-                  <p className="mb-0">Available Seats: {eventData.availableSeats}</p> */}
                   <ul className="icon-list">
-                    {attendees.length !== 0 ? (
+                    {attendees &&
                       attendees.map((person) => {
                         return <Attendee key={person.id} person={person} />
-                      })
-                    ) : (
-                      <p>No one so far</p>
-                    )}
+                      })}
                   </ul>
                 </div>
               </div>
