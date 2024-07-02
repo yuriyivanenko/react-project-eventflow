@@ -5,6 +5,7 @@ import NewEvent from "./pages/NewEvent"
 import Error404 from "./pages/Error404"
 import Event from "./pages/Event"
 import LandingPage from "./pages/LandingPage"
+import EventSignUp from "./pages/EventSignUp"
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
     ],
+  },
+  {
+    path: "/event_signup/:id",
+    element: <EventSignUp />,
   },
 ])
 

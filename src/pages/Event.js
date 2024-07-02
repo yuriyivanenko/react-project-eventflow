@@ -42,7 +42,7 @@ const Event = () => {
   }
 
   const handleNavigateToLandingPage = () => {
-    navigate(`/event/${id}/landing_page`, { state: eventData })
+    navigate(`/event/${id}/landing_page`, { state: { ...eventData, id } })
   }
 
   if (!eventData)
