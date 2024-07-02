@@ -1,7 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
 
-const Home = () => {
+const Error404 = () => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate("/")
@@ -28,4 +28,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Error404
