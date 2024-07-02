@@ -119,7 +119,7 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
               </div>
               <div className="col-md-5 mb-5">
                 <label htmlFor="seats" className="form-label">
-                  Availble Seats
+                  Available Seats
                 </label>
                 <input
                   type="number"
