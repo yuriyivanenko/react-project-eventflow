@@ -22,8 +22,6 @@ const Event = () => {
 
       if (docSnap.exists()) {
         setEventData(docSnap.data())
-      } else {
-        console.log("No such document!")
       }
     } catch (error) {
       console.error("Error fetching event data:", error)
