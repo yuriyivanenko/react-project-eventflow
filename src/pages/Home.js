@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { collection, getDocs, orderBy, limit, query } from "firebase/firestore"
+import { collection, getDocs, orderBy, query } from "firebase/firestore"
 import NavBar from "../components/NavBar"
 import { db } from "../firebase"
 import EventLink from "../components/EventLink"
@@ -13,7 +13,7 @@ const Home = () => {
   const fetchFiveEarliestEvents = async () => {
     try {
       const collectionRef = collection(db, "events")
-      const q = query(collectionRef, orderBy("date", "asc"), limit(5))
+      const q = query(collectionRef, orderBy("date", "asc"))
       const querySnapShot = await getDocs(q)
       const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
       setEventsList(eventsList)
@@ -41,7 +41,6 @@ const Home = () => {
           <div className="row g-5">
             <div className="col-md-6">
               <h2>Your events</h2>
-              <p>5 earliest events coming up</p>
               <ul className="list-unstyled">
                 {eventsList &&
                   eventsList.map((event) => {
