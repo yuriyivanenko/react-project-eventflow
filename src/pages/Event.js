@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom"
-import { doc, getDocs, getDoc, collection, query, limit } from "firebase/firestore"
+import { doc, getDocs, getDoc, collection, query, limit, updateDoc } from "firebase/firestore"
 import MoonLoader from "react-spinners/ClipLoader"
 import { db } from "../firebase"
 import NavBar from "../components/NavBar"
@@ -49,6 +49,22 @@ const Event = () => {
 
   const handleNavigateToLandingPage = () => {
     navigate(`/event/${id}/landing_page`, { state: { ...eventData, id } })
+  }
+
+  const handleCloseEvent = async () => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to close this event? You will not be able to undo this action!"
+    )
+    if (userConfirmed) {
+      const docRef = doc(db, "events", id)
+      const newData = { eventOpen: false }
+      try {
+        await updateDoc(docRef, newData)
+        navigate("/")
+      } catch (error) {
+        alert(error)
+      }
+    }
   }
 
   if (!eventData)
@@ -114,6 +130,12 @@ const Event = () => {
                   </ul>
                 </div>
               </div>
+              <div className="mb-1 mt-5">
+                <a onClick={handleCloseEvent} className="btn btn-danger btn-lg px-4">
+                  Close Event
+                </a>
+              </div>
+              <p className="text-muted">This action is not reversible</p>
             </main>
           </div>
         </>

@@ -5,6 +5,7 @@ import { collection, addDoc } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
 import convertDateTime from "../components/NewEventForm/convertDateTime.helper"
+import BackButton from "../components/BackButton"
 
 const NewEvent = () => {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ const NewEvent = () => {
     description: "",
     date: "",
     time: "",
+    eventOpen: true,
   })
 
   const handleFormChange = (target) => {

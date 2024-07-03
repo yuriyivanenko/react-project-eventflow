@@ -1,4 +1,5 @@
 import React from "react"
+import BackButton from "../BackButton"
 
 const NewEventForm = ({ formData, onFormChange, onFormSubmit }) => {
   const { eventName, address, address2, city, state, zip, description, date, time } = formData
@@ -11,6 +12,7 @@ const NewEventForm = ({ formData, onFormChange, onFormSubmit }) => {
 
   return (
     <main className="container mb-5">
+      <BackButton />
       <div className="py-5 text-center">
         <h2>New Event Form</h2>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { collection, getDocs, orderBy, query } from "firebase/firestore"
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore"
 import NavBar from "../components/NavBar"
 import { db } from "../firebase"
 import EventLink from "../components/EventLink"
@@ -13,9 +13,14 @@ const Home = () => {
   const fetchFiveEarliestEvents = async () => {
     try {
       const collectionRef = collection(db, "events")
-      const q = query(collectionRef, orderBy("date", "asc"))
+      const q = query(collectionRef, orderBy("date", "asc"), where("eventOpen", "==", true))
       const querySnapShot = await getDocs(q)
       const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      eventsList.sort((a, b) => {
+        const dateA = new Date(a.date)
+        const dateB = new Date(b.date)
+        return dateA - dateB
+      })
       setEventsList(eventsList)
     } catch (error) {
       alert(error)
