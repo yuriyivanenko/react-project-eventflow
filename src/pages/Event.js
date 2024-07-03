@@ -5,6 +5,7 @@ import MoonLoader from "react-spinners/ClipLoader"
 import { db } from "../firebase"
 import NavBar from "../components/NavBar"
 import Attendee from "../components/Attendee"
+import BackButton from "../components/BackButton"
 
 const Event = () => {
   const { id } = useParams()
@@ -68,7 +69,7 @@ const Event = () => {
         <NavBar />
         <MoonLoader
           className="mt-5"
-          color={"#fffff"}
+          color={"#0d6efd"}
           loading={true}
           size={150}
           aria-label="Loading Spinner"
@@ -85,25 +86,26 @@ const Event = () => {
         <>
           <NavBar />
           <div className="col-lg-8 mx-auto p-3 py-md-5">
+            <BackButton />
             <header className="d-flex align-items-center pb-3 mb-5 border-bottom">
-              <a href="/" className="d-flex align-items-center text-dark text-decoration-none">
-                <span className="fs-4">{eventData.eventName}</span>
-              </a>
+              <span className="fs-4">{eventData.eventName}</span>
             </header>
-
             <main>
               <div className="col-md-8">
                 <p className="fs-5 mb-0">{eventData.address}</p>
                 <p className="fs-5 mb-0">Suite 204</p>
-                <p className="fs-5 mb-0">{`${eventData.state}, ${eventData.zip}`}</p>
+                <p className="fs-5 mb-0">{`${eventData.city} ${eventData.state}, ${eventData.zip}`}</p>
               </div>
-
+              <hr className="col-3 col-md-2 mb-5" />
+              <div className="col-md-8">
+                <h5>Event Description</h5>
+                <p className="fs-5 mb-0">{eventData.description}</p>
+              </div>
               <div className="mb-5 mt-5">
                 <a onClick={handleNavigateToLandingPage} className="btn btn-primary btn-lg px-4">
                   View Landing Page
                 </a>
               </div>
-
               <hr className="col-3 col-md-2 mb-5" />
               <div className="row g-5">
                 <div className="col-md-6">
@@ -114,7 +116,6 @@ const Event = () => {
                   <h5>Time</h5>
                   <p>{convert24HourToLocale(eventData.time)}</p>
                 </div>
-
                 <div className="col-md-6">
                   <h2>Attendees</h2>
                   <ul className="icon-list">
