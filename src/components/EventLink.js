@@ -9,7 +9,8 @@ const EventLink = ({ eventInfo: { id, eventName, date } }) => {
 
   return (
     <li id={id} onClick={navigateTo}>
-      <a href="#">
+      <a href="" className="icon-link mb-1">
+        <i class="bi bi-arrow-right-circle-fill mx-2"></i>
         {eventName} on {date}
       </a>
     </li>

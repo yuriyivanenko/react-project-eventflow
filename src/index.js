@@ -6,6 +6,7 @@ import "./index.css"
 import "@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min"
+import "bootstrap-icons/font/bootstrap-icons.css"
 import reportWebVitals from "./reportWebVitals"
 
 const root = ReactDOM.createRoot(document.getElementById("root"))

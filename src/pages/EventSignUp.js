@@ -34,7 +34,7 @@ const EventSignUp = () => {
       }
     }
     fetchEventData()
-  }, [id])
+  }, [])
 
   const handleSignup = async (e) => {
     e.preventDefault()
