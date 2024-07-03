@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { doc, getDoc, addDoc, collection } from "firebase/firestore"
+import MoonLoader from "react-spinners/ClipLoader"
 import { db } from "../firebase"
 
 const EventSignUp = () => {
@@ -18,23 +19,20 @@ const EventSignUp = () => {
     })
   }
 
-  useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const docRef = doc(db, "events", id)
-        const docSnap = await getDoc(docRef)
+  const fetchEventData = async () => {
+    try {
+      const docRef = doc(db, "events", id)
+      const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-          setEventData(docSnap.data())
-        } else {
-          console.log("No such document!")
-        }
-      } catch (error) {
-        console.error("Error fetching event data:", error)
+      if (docSnap.exists()) {
+        setEventData(docSnap.data())
+      } else {
+        console.log("No such document!")
       }
+    } catch (error) {
+      console.error("Error fetching event data:", error)
     }
-    fetchEventData()
-  }, [id])
+  }
 
   const handleSignup = async (e) => {
     e.preventDefault()
@@ -49,10 +47,21 @@ const EventSignUp = () => {
     }
   }
 
+  useEffect(() => {
+    fetchEventData()
+  }, [])
+
   if (!eventDate)
     return (
-      <div className="px-4 py-1 my-3 text-center">
-        <h1>Loading...</h1>
+      <div className="container text-center">
+        <MoonLoader
+          className="mt-5"
+          color={"#0d6efd"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
     )
 
@@ -66,7 +75,7 @@ const EventSignUp = () => {
           <h5 className=" mb-0">Location</h5>
           <p className="lead mb-0">{eventDate.address}</p>
           <p className="lead mb-0">{eventDate.address2}</p>
-          <p className="lead mb-5">{`${eventDate.state}, ${eventDate.zip}`}</p>
+          <p className="lead mb-5">{`${eventDate.city} ${eventDate.state}, ${eventDate.zip}`}</p>
           <form onSubmit={handleSignup}>
             <h1 className="h3 mb-3 fw-normal">Sign up for this event</h1>
             <div className="form-floating mb-4">
@@ -78,6 +87,7 @@ const EventSignUp = () => {
                 className="form-control"
                 id="firstName"
                 placeholder="John"
+                required
               />
               <label htmlFor="firstName">First name</label>
             </div>
@@ -90,6 +100,7 @@ const EventSignUp = () => {
                 className="form-control"
                 id="floatingPassword"
                 placeholder="Smith"
+                required
               />
               <label htmlFor="floatingPassword">Last name</label>
             </div>

@@ -3,18 +3,24 @@ import NavBar from "../components/NavBar"
 import NewEventForm from "../components/NewEventForm"
 import { collection, addDoc } from "firebase/firestore"
 import { db } from "../firebase"
+import { useNavigate } from "react-router-dom"
+import convertDateTime from "../components/NewEventForm/convertDateTime.helper"
+import BackButton from "../components/BackButton"
 
 const NewEvent = () => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     eventName: "",
     address: "",
     address2: "",
+    city: "",
     state: "",
     zip: "",
     description: "",
     date: "",
     time: "",
-    availableSeats: "",
+    eventOpen: true,
   })
 
   const handleFormChange = (target) => {
@@ -26,19 +32,8 @@ const NewEvent = () => {
 
   const handleFormSubmit = async () => {
     try {
-      const docRef = await addDoc(collection(db, "events"), formData)
-      // setFormData({
-      //   eventName: "",
-      //   address: "",
-      //   address2: "",
-      //   state: "",
-      //   zip: "",
-      //   description: "",
-      //   date: "",
-      //   time: "",
-      //   availableSeats: "",
-      // })
-      console.log(docRef.id)
+      const docRef = await addDoc(collection(db, "events"), convertDateTime(formData))
+      navigate(`/event/${docRef.id}`)
     } catch (e) {
       console.error("Error adding document: ", e)
     }
@@ -47,7 +42,7 @@ const NewEvent = () => {
   return (
     <>
       <NavBar />
-      <NewEventForm formData={formData} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} />
+      <NewEventForm formData={formData} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit} />
     </>
   )
 }

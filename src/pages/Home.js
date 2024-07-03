@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore"
 import NavBar from "../components/NavBar"
-import { collection, getDocs, orderBy, limit, query } from "firebase/firestore"
 import { db } from "../firebase"
 import EventLink from "../components/EventLink"
 
 const Home = () => {
-  const [eventsList, setEventsList] = useState(null)
   const navigate = useNavigate()
-
+  const [eventsList, setEventsList] = useState(null)
   const handleNewProjectClick = () => navigate("/new_event")
 
-  useEffect(() => {
-    const fetchFiveEarliestEvents = async () => {
-      try {
-        const collectionRef = collection(db, "events")
-        const q = query(collectionRef, orderBy("date", "asc"), limit(5))
-        const querySnapShot = await getDocs(q)
-        const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        setEventsList(eventsList)
-      } catch (error) {
-        alert(error)
-      }
+  const fetchFiveEarliestEvents = async () => {
+    try {
+      const collectionRef = collection(db, "events")
+      const q = query(collectionRef, orderBy("date", "asc"), where("eventOpen", "==", true))
+      const querySnapShot = await getDocs(q)
+      const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      eventsList.sort((a, b) => {
+        const dateA = new Date(a.date)
+        const dateB = new Date(b.date)
+        return dateA - dateB
+      })
+      setEventsList(eventsList)
+    } catch (error) {
+      alert(error)
     }
+  }
+
+  useEffect(() => {
     fetchFiveEarliestEvents()
   }, [])
 
@@ -41,8 +46,7 @@ const Home = () => {
           <div className="row g-5">
             <div className="col-md-6">
               <h2>Your events</h2>
-              <p>5 earliest events coming up</p>
-              <ul className="icon-list">
+              <ul className="list-unstyled">
                 {eventsList &&
                   eventsList.map((event) => {
                     return <EventLink key={event.id} eventInfo={event} />
