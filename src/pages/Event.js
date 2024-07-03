@@ -9,9 +9,9 @@ import BackButton from "../components/BackButton"
 
 const Event = () => {
   const { id } = useParams()
+  const location = useLocation()
   const [eventData, setEventData] = useState(null)
   const [attendees, setAttendees] = useState(null)
-  const location = useLocation()
   const isLandingPage = location.pathname.includes("landing_page")
   const navigate = useNavigate()
 
@@ -46,18 +46,6 @@ const Event = () => {
     fetchEventData()
     fetchAttendees()
   }, [id])
-
-  const convert24HourToLocale = (time24) => {
-    const [hours, minutes] = time24.split(":").map(Number)
-    const date = new Date()
-    date.setHours(hours)
-    date.setMinutes(minutes)
-    const timeLocale = date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-    return timeLocale
-  }
 
   const handleNavigateToLandingPage = () => {
     navigate(`/event/${id}/landing_page`, { state: { ...eventData, id } })
@@ -114,7 +102,7 @@ const Event = () => {
                   <h5>Date</h5>
                   <p>{eventData.date}</p>
                   <h5>Time</h5>
-                  <p>{convert24HourToLocale(eventData.time)}</p>
+                  <p>{eventData.time}</p>
                 </div>
                 <div className="col-md-6">
                   <h2>Attendees</h2>
