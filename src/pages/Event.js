@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom"
 import { doc, getDocs, getDoc, collection, query, limit } from "firebase/firestore"
+import MoonLoader from "react-spinners/ClipLoader"
 import { db } from "../firebase"
 import NavBar from "../components/NavBar"
 import Attendee from "../components/Attendee"
@@ -63,15 +64,17 @@ const Event = () => {
 
   if (!eventData)
     return (
-      <>
+      <div className="container text-center">
         <NavBar />
-        <div className="col-lg-8 mx-auto p-3 py-md-5">
-          <main>
-            <h1>Event</h1>
-            <p>{id}</p>
-          </main>
-        </div>
-      </>
+        <MoonLoader
+          className="mt-5"
+          color={"#fffff"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
     )
 
   return (
