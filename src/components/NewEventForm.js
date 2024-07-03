@@ -1,7 +1,7 @@
 import React from "react"
 
 const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
-  const { eventName, address, address2, state, zip, description, date, time, availableSeats } = formData
+  const { eventName, address, address2, city, state, zip, description, date, time, availableSeats } = formData
 
   const handleChange = (e) => handleFormChange(e.target)
   const handleSubmit = (e) => {
@@ -17,7 +17,7 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
         </div>
         <div className="row g-5 justify-content-center">
           <div className="col-md-12 col-lg-7">
-            <form className="needs-validation" noValidate onSubmit={handleSubmit}>
+            <form className="needs-validation" onSubmit={handleSubmit}>
               <div className="row g-3">
                 <div className="col-12">
                   <h5>Event name</h5>
@@ -67,6 +67,21 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="state" className="form-label">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={handleChange}
+                    name="city"
+                    className="form-control"
+                    id="city"
+                    placeholder="New York"
+                    required
+                  />
+                </div>
+                <div className="col-md-2">
+                  <label htmlFor="state" className="form-label">
                     State
                   </label>
                   <input
@@ -76,11 +91,11 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                     name="state"
                     className="form-control"
                     id="state"
-                    placeholder=""
+                    placeholder="NY"
                     required
                   />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label htmlFor="zip" className="form-label">
                     Zip
                   </label>
@@ -91,13 +106,13 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                     name="zip"
                     className="form-control"
                     id="zip"
-                    placeholder=""
+                    placeholder="19000"
                     required
                   />
                 </div>
               </div>
               <hr className="my-4" />
-              <h5 className="mb-3">Description</h5>
+              <h5 className="mb-3">Event description</h5>
               <div className="col-12">
                 <textarea
                   value={description}
@@ -105,7 +120,8 @@ const NewEventForm = ({ formData, handleFormChange, handleFormSubmit }) => {
                   name="description"
                   className="form-control"
                   aria-label="With textarea"
-                  placeholder="What is your event about?"
+                  placeholder="This will appear on your event page"
+                  required
                 ></textarea>
               </div>
               <hr className="my-4" />

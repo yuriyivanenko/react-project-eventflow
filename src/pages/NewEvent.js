@@ -3,12 +3,16 @@ import NavBar from "../components/NavBar"
 import NewEventForm from "../components/NewEventForm"
 import { collection, addDoc } from "firebase/firestore"
 import { db } from "../firebase"
+import { useNavigate } from "react-router-dom"
 
 const NewEvent = () => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     eventName: "",
     address: "",
     address2: "",
+    city: "",
     state: "",
     zip: "",
     description: "",
@@ -27,18 +31,7 @@ const NewEvent = () => {
   const handleFormSubmit = async () => {
     try {
       const docRef = await addDoc(collection(db, "events"), formData)
-      // setFormData({
-      //   eventName: "",
-      //   address: "",
-      //   address2: "",
-      //   state: "",
-      //   zip: "",
-      //   description: "",
-      //   date: "",
-      //   time: "",
-      //   availableSeats: "",
-      // })
-      console.log(docRef.id)
+      navigate(`/event/${docRef.id}`)
     } catch (e) {
       console.error("Error adding document: ", e)
     }

@@ -6,9 +6,8 @@ import { db } from "../firebase"
 import EventLink from "../components/EventLink"
 
 const Home = () => {
-  const [eventsList, setEventsList] = useState(null)
   const navigate = useNavigate()
-
+  const [eventsList, setEventsList] = useState(null)
   const handleNewProjectClick = () => navigate("/new_event")
 
   useEffect(() => {
