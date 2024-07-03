@@ -4,6 +4,7 @@ import NewEventForm from "../components/NewEventForm"
 import { collection, addDoc } from "firebase/firestore"
 import { db } from "../firebase"
 import { useNavigate } from "react-router-dom"
+import convertDateTime from "../components/NewEventForm/convertDateTime.helper"
 
 const NewEvent = () => {
   const navigate = useNavigate()
@@ -18,7 +19,6 @@ const NewEvent = () => {
     description: "",
     date: "",
     time: "",
-    availableSeats: "",
   })
 
   const handleFormChange = (target) => {
@@ -30,7 +30,7 @@ const NewEvent = () => {
 
   const handleFormSubmit = async () => {
     try {
-      const docRef = await addDoc(collection(db, "events"), formData)
+      const docRef = await addDoc(collection(db, "events"), convertDateTime(formData))
       navigate(`/event/${docRef.id}`)
     } catch (e) {
       console.error("Error adding document: ", e)
@@ -40,7 +40,7 @@ const NewEvent = () => {
   return (
     <>
       <NavBar />
-      <NewEventForm formData={formData} handleFormChange={handleFormChange} handleFormSubmit={handleFormSubmit} />
+      <NewEventForm formData={formData} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit} />
     </>
   )
 }
