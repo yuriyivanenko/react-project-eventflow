@@ -1,5 +1,6 @@
 import React from "react"
 import { useLocation } from "react-router-dom"
+// @ts-ignore
 import html2pdf from "html2pdf.js"
 import QRCode from "qrcode.react"
 import NavBar from "../components/NavBar"

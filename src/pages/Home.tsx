@@ -5,9 +5,9 @@ import NavBar from "../components/NavBar"
 import { db } from "../firebase"
 import EventLink from "../components/EventLink"
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate()
-  const [eventsList, setEventsList] = useState(null)
+  const [eventsList, setEventsList] = useState<any>(null)
   const handleNewProjectClick = () => navigate("/new_event")
 
   const fetchFiveEarliestEvents = async () => {
@@ -16,10 +16,10 @@ const Home = () => {
       const q = query(collectionRef, orderBy("date", "asc"), where("eventOpen", "==", true))
       const querySnapShot = await getDocs(q)
       const eventsList = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      eventsList.sort((a, b) => {
+      eventsList.sort((a: any, b: any) => {
         const dateA = new Date(a.date)
         const dateB = new Date(b.date)
-        return dateA - dateB
+        return dateA.getTime() - dateB.getTime()
       })
       setEventsList(eventsList)
     } catch (error) {
@@ -48,7 +48,7 @@ const Home = () => {
               <h2>Your events</h2>
               <ul className="list-unstyled">
                 {eventsList &&
-                  eventsList.map((event) => {
+                  eventsList.map((event: any) => {
                     return <EventLink key={event.id} eventInfo={event} />
                   })}
               </ul>

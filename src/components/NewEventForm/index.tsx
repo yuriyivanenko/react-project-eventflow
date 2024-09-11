@@ -1,11 +1,13 @@
 import React from "react"
 import BackButton from "../BackButton"
+import { NewEventFormProps } from "../types"
 
-const NewEventForm = ({ formData, onFormChange, onFormSubmit }) => {
+
+const NewEventForm: React.FC <NewEventFormProps> = ({ formData, onFormChange, onFormSubmit }) => {
   const { eventName, address, address2, city, state, zip, description, date, time } = formData
 
-  const handleChange = (e) => onFormChange(e.target)
-  const handleSubmit = (e) => {
+  const handleChange = (e: React.SyntheticEvent) => onFormChange(e.target)
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     onFormSubmit(e)
   }
