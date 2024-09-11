@@ -4,15 +4,21 @@ import { doc, getDoc, addDoc, collection } from "firebase/firestore"
 import MoonLoader from "react-spinners/ClipLoader"
 import { db } from "../firebase"
 
-const EventSignUp = () => {
+interface FormData {
+  firstName: string;
+  lastName: string
+}
+
+const EventSignUp: React.FC = () => {
   const { id } = useParams()
-  const [eventDate, setEventData] = useState(null)
-  const [formData, setFormData] = useState({
+  const [eventDate, setEventData] = useState<any>(null)
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
   })
 
-  const handleFormChange = ({ target: { name, value } }) => {
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -21,7 +27,7 @@ const EventSignUp = () => {
 
   const fetchEventData = async () => {
     try {
-      const docRef = doc(db, "events", id)
+      const docRef = doc(db, "events", id as string)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -34,8 +40,8 @@ const EventSignUp = () => {
     }
   }
 
-  const handleSignup = async (e) => {
-    e.preventDefault()
+  const handleSignup = async (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
       await addDoc(collection(db, `events/${id}/attendees`), formData)
       setFormData({

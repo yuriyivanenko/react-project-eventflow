@@ -7,21 +7,22 @@ import NavBar from "../components/NavBar"
 import Attendee from "../components/Attendee"
 import BackButton from "../components/BackButton"
 
-const Event = () => {
+const Event: React.FC = () => {
   const { id } = useParams()
   const location = useLocation()
-  const [eventData, setEventData] = useState(null)
-  const [attendees, setAttendees] = useState(null)
+  const [eventData, setEventData] = useState<any>(null)
+  const [attendees, setAttendees] = useState<any>(null)
   const isLandingPage = location.pathname.includes("landing_page")
   const navigate = useNavigate()
 
   const fetchEventData = async () => {
     try {
-      const docRef = doc(db, "events", id)
-      const docSnap = await getDoc(docRef)
-
-      if (docSnap.exists()) {
-        setEventData(docSnap.data())
+      if (id) {
+        const docRef = doc(db, "events", id)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+          setEventData(docSnap.data())
+        }
       }
     } catch (error) {
       console.error("Error fetching event data:", error)
@@ -54,7 +55,7 @@ const Event = () => {
       "Are you sure you want to close this event? You will not be able to undo this action!"
     )
     if (userConfirmed) {
-      const docRef = doc(db, "events", id)
+      const docRef = doc(db, "events", id as string)
       const newData = { eventOpen: false }
       try {
         await updateDoc(docRef, newData)
@@ -122,7 +123,7 @@ const Event = () => {
                   <h2>Attendees</h2>
                   <ul className="icon-list">
                     {attendees &&
-                      attendees.map((person) => {
+                      attendees.map((person: any) => {
                         return <Attendee key={person.id} person={person} />
                       })}
                   </ul>

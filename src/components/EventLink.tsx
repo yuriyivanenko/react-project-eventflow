@@ -1,7 +1,14 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
 
-const EventLink = ({ eventInfo: { id, eventName, date } }) => {
+interface EventProps {
+  eventInfo:
+  {id: string;
+  eventName: string;
+  date: string}
+}
+
+const EventLink: React.FC<EventProps> = ({ eventInfo: { id, eventName, date } }) => {
   const navigate = useNavigate()
   const navigateTo = () => {
     navigate(`/event/${id}`)

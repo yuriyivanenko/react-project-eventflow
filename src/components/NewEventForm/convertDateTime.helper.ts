@@ -1,4 +1,4 @@
-const convert24HourToLocale = (time24) => {
+const convert24HourToLocale = (time24: any) => {
   const [hours, minutes] = time24.split(":").map(Number)
   const date = new Date()
   date.setHours(hours)
@@ -10,12 +10,12 @@ const convert24HourToLocale = (time24) => {
   return timeLocale
 }
 
-const convertDateFormat = (dateString) => {
+const convertDateFormat = (dateString: string) => {
   const [year, month, day] = dateString.split("-")
   return `${parseInt(month)}/${parseInt(day)}/${year}`
 }
 
-const convertDateTime = (formData) => {
+const convertDateTime = (formData: any) => {
   return {
     ...formData,
     date: convertDateFormat(formData.date),
