@@ -6,6 +6,7 @@ import Error404 from "./pages/Error404"
 import Event from "./pages/Event"
 import LandingPage from "./pages/LandingPage"
 import EventSignUp from "./pages/EventSignUp"
+import ReactHookForm from "./pages/ReactHookForm"
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/new_event",
     element: <NewEvent />,
+  },
+  {
+    path: "/react_hook_form",
+    element: <ReactHookForm />,
   },
   {
     path: "/event/:id",

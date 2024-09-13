@@ -9,6 +9,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
   const [eventsList, setEventsList] = useState<any>(null)
   const handleNewProjectClick = () => navigate("/new_event")
+  const handleGoToReactHookForm = () => navigate("/react_hook_form")
 
   const fetchFiveEarliestEvents = async () => {
     try {
