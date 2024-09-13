@@ -9,29 +9,10 @@ import convertDateTime from "../components/NewEventForm/convertDateTime.helper"
 const NewEvent = () => {
   const navigate = useNavigate()
 
-  const [formData, setFormData] = useState({
-    eventName: "",
-    address: "",
-    address2: "",
-    city: "",
-    state: "",
-    zip: "",
-    description: "",
-    date: "",
-    time: "",
-    eventOpen: true,
-  })
-
-  const handleFormChange = (target: any) => {
-    setFormData({
-      ...formData,
-      [target.name]: target.name === "availableSeats" ? Number(target.value) : target.value,
-    })
-  }
-
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (data: object) => {
+    console.log(data)
     try {
-      const docRef = await addDoc(collection(db, "events"), convertDateTime(formData))
+      const docRef = await addDoc(collection(db, "events"), convertDateTime(data))
       navigate(`/event/${docRef.id}`)
     } catch (e) {
       console.error("Error adding document: ", e)
@@ -41,7 +22,7 @@ const NewEvent = () => {
   return (
     <>
       <NavBar />
-      <NewEventForm formData={formData} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit} />
+      <NewEventForm onFormSubmit={handleFormSubmit} />
     </>
   )
 }
